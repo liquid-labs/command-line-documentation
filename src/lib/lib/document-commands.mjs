@@ -16,8 +16,11 @@ const documentCommands = ({ commands, context, depth, header, noNewline = false 
     content += '<span id="' + internalRef(context + ' ' + name) + '"></span>\n'
     content += sectionMark({
       depth  : depth + 2,
-      header : `\`${context} ${name}` + documentCommandArgs({ allOptions : args }) + '`'
+      header : `\`${name}\``
     })
+
+    content += `\`${context} ${name}` + documentCommandArgs({ allOptions : args }) + '`\n\n'
+
     content += description !== undefined
       ? chalkTemplateToMd(description) + '\n\n'
       : summary !== undefined

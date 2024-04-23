@@ -29,7 +29,9 @@ describe('documentCommands', () => {
 - [\`command-b\`](#main-command-command-b): Command with sub-commands
 
 <span id="main-command-command-a"></span>
-### \`main-command command-a <options>\`
+### \`command-a\`
+
+\`main-command command-a <options>\`
 
 More details.
 
@@ -40,7 +42,9 @@ More details.
 |\`--option-a\`|an option|
 
 <span id="main-command-command-b"></span>
-### \`main-command command-b <sub-command>\`
+### \`command-b\`
+
+\`main-command command-b <sub-command>\`
 
 Command with sub-commands
 
@@ -57,12 +61,16 @@ Command with sub-commands
 - [\`sub-b\`](#main-command-command-b-sub-b): Subcommand B
 
 <span id="main-command-command-b-sub-a"></span>
-##### \`main-command command-b sub-a\`
+##### \`sub-a\`
+
+\`main-command command-b sub-a\`
 
 Subcommand A
 
 <span id="main-command-command-b-sub-b"></span>
-##### \`main-command command-b sub-b\`
+##### \`sub-b\`
+
+\`main-command command-b sub-b\`
 
 Subcommand B
 
