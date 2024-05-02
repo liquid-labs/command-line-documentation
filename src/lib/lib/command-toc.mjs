@@ -7,7 +7,11 @@ const commandTOC = ({ commands, context, depth, header }) => {
 
   for (const { description, name, summary } of commands) {
     content += `- [\`${name}\`](#${internalRef(context + ' ' + name)})`
-    const shortDescription = summary || description
+    let shortDescription = summary
+    if (shortDescription === undefined) { // then we take the first sentence of the description
+      const indexOfFirstPeriod = description.indexOf('.')
+      shortDescription = indexOfFirstPeriod === -1 ? description : description.slice(0, indexOfFirstPeriod + 1)
+    }
     if (shortDescription !== undefined) {
       content += `: ${shortDescription}`
     }
