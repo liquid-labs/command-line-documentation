@@ -81,6 +81,6 @@ describe('cld', () => {
     const exitCode = await cld({ argv, stderr, stdout })
     expect(exitCode).toBe(0)
     expect(errout).toBe('')
-    expect(output.startsWith("## CLI reference")).toBe(true)
+    expect(output.startsWith('## CLI reference')).toBe(true)
   })
 })
