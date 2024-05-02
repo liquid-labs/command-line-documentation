@@ -11,6 +11,7 @@ describe('cld', () => {
   const stderr = {
     write : (chunk) => { errout += chunk }
   }
+  const testDataPath = fsPath.resolve(__dirname, '..', '..', 'lib', 'test', 'data', 'command-spec.yaml')
 
   beforeEach(() => {
     output = ''
@@ -18,7 +19,6 @@ describe('cld', () => {
   })
 
   test('prints documentation to stdout given valid file path', async() => {
-    const testDataPath = fsPath.resolve(__dirname, '..', '..', 'lib', 'test', 'data', 'command-spec.yaml')
     const argv = [testDataPath]
 
     const exitCode = await cld({ argv, stderr, stdout })
@@ -64,5 +64,23 @@ describe('cld', () => {
     expect(exitCode).toBe(4)
     expect(output).toBe('')
     expect(errout.startsWith('Invalid CLI spec')).toBe(true)
+  })
+
+  test('exist with 5 if both `--document` and `--cli-spec-path` options are specified.', async() => {
+    const argv = [testDataPath, '--document']
+
+    const exitCode = await cld({ argv, stderr, stdout })
+    expect(exitCode).toBe(5)
+    expect(output).toBe('')
+    expect(errout.startsWith("Option '--document'")).toBe(true)
+  })
+
+  test('documents self when `--document` option set', async() => {
+    const argv = ['--document']
+
+    const exitCode = await cld({ argv, stderr, stdout })
+    expect(exitCode).toBe(0)
+    expect(errout).toBe('')
+    expect(output.startsWith("## CLI reference")).toBe(true)
   })
 })

@@ -35,8 +35,7 @@ const myCLISpec = {
 const cld = async({ argv = process.argv, stderr = process.stderr, stdout = process.stdout } = {}) => {
   const options = commandLineArgs(myCLISpec.mainOptions, { argv })
   const filePath = options['cli-spec-path']
-  const { document: doDocument, title } = options
-  const sectionDepth = options['section-depth']
+  const { document: doDocument, 'section-depth': sectionDepth = 2, title = 'CLI reference' } = options
 
   if (filePath !== undefined && doDocument === true) {
     stderr.write("Option '--document' incompatible with CLI spec path.")
@@ -48,7 +47,7 @@ const cld = async({ argv = process.argv, stderr = process.stderr, stdout = proce
   }
   else if (doDocument === true) {
     const content = await commandLineDocumentation(myCLISpec, { sectionDepth, title })
-    process.stdout.write(content)
+    stdout.write(content)
     return 0
   }
 

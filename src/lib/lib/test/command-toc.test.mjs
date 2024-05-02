@@ -19,4 +19,15 @@ describe('commandTOC', () => {
 
   test('sorted output', () => expect(content).toBe(expected))
   test('original commands remain unsorted', () => expect(commands[0].name).toBe('last'))
+  test('truncates long description to first sentence', () => {
+    const content = 
+      commandTOC({ 
+        commands: [{ name: 'command', description: 'First sentence. Next sentence.' }],
+        context, depth, header })
+    expect(content).toBe(`### Test
+
+- [\`command\`](#foo-command): First sentence.
+
+`)
+  })
 })
