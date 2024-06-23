@@ -17,7 +17,7 @@ describe('convertCLISpecTypes', () => {
     cliSpec = convertCLISpecTypes(rawCLISpec)
   })
 
-  test("converts 'mainOptions'", () => expect(cliSpec.mainOptions[0].type).toBe(String))
+  test("converts 'arguments'", () => expect(cliSpec.arguments[0].type).toBe(String))
 
   test('converts command arguments', () => {
     expect(cliSpec.commands[2].arguments[1].type).toBe(Boolean)
@@ -28,6 +28,6 @@ describe('convertCLISpecTypes', () => {
   })
 
   test('Raises error on non-convertable type', () => {
-    expect(() => convertCLISpecTypes({ mainOptions : [{ type : '() => 1' }] })).toThrow(/Cannot convert/)
+    expect(() => convertCLISpecTypes({ arguments : [{ type : '() => 1' }] })).toThrow(/Cannot convert/)
   })
 })

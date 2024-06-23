@@ -1,5 +1,5 @@
 mainCommand: widget-maker
-mainOptions:
+arguments:
   - name: command
     description: The command to execute.
     defaultOption: true

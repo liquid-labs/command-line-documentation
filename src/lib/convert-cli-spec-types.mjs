@@ -1,7 +1,7 @@
 const convertCLISpecTypes = (cliSpec) => {
   const newCLISpec = structuredClone(cliSpec)
 
-  newCLISpec.mainOptions?.forEach((optionSpec) => convertTypes(optionSpec))
+  newCLISpec.arguments?.forEach((optionSpec) => convertTypes(optionSpec))
   convertCommandArguments(newCLISpec.commands)
 
   return newCLISpec

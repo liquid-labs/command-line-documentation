@@ -5,7 +5,7 @@ Generates Markdown "user guide" based off CLI spec compatible with [command-line
 
 ___ALPHA status software___: The main documentaiton feature is working but we expect to add significant new functionality and improve ease of use before GA.
 
-- [Installation](#installation)
+- [Install](#install)
 - [Usage](#usage)
   - [Library usage](#library-usage)
   - [`cld` usage](#cld-usage)
@@ -15,7 +15,7 @@ ___ALPHA status software___: The main documentaiton feature is working but we ex
   - [CLI spec data structure](#cli-spec-data-structure)
   - [CLI reference](#cli-reference)
 
-## Installation
+## Install
 
 ```bash
 npm i command-line-documentation
@@ -25,7 +25,7 @@ npm i command-line-documentation
 
 ### Library usage
 
-To cerate self-documenting CLIs.
+To create self-documenting CLIs.
 
 ```javascript
 // for ESM
@@ -38,13 +38,13 @@ import commandLineArgs from 'command-line-args'
 const mainCommand = 'do-it'
 const cliSpec = {
   mainCommand,
-  mainOptions: [
+  arguments: [
     { name: 'verbose', alias: 'v', type: Boolean, description: 'Makes the output chatty.'},
     { name: 'document', type: Boolean, description: `Generates Markdown documentation for '${mainCommand}'.`}
   ]
 }
 
-const options = commandLineArgs(cliSpec.mainOptions)
+const options = commandLineArgs(cliSpec.arguments)
 
 if (options.document === true) {
   commandLineDocumentation(cliSpec)
@@ -64,7 +64,7 @@ npx cld path/to/cli-spec.yaml
 
 You can see this package's `cld` documentation [here](#cli-reference).
 
-Processin the [example CLI spec](#cli-spec-data-structure) would generate:
+Processing the [example CLI spec](#cli-spec-data-structure) would generate:
 ```markdown
 # `widget-maker` Command Reference
 
@@ -86,7 +86,9 @@ Processin the [example CLI spec](#cli-spec-data-structure) would generate:
 
 
 <span id="widget-maker-create"></span>
-### `widget-maker create [type]`
+### `create`
+
+`widget-maker create [type]`
 
 Creates a new widget.
 
@@ -103,7 +105,9 @@ Creates a new widget.
 - [`summary`](#widget-maker-create-summary): Creates a summary widget.
 
 <span id="widget-maker-create-chart"></span>
-##### `widget-maker create chart <options>`
+##### `chart`
+
+`widget-maker create chart <options>`
 
 Creates a chart widget
 
@@ -114,12 +118,16 @@ Creates a chart widget
 |`--chart-type`|The type of chart to create. May be 'bar' or 'line'.|
 
 <span id="widget-maker-create-summary"></span>
-##### `widget-maker create summary`
+##### `summary`
+
+`widget-maker create summary`
 
 Creates a summary widget.
 
 <span id="widget-maker-help"></span>
-### `widget-maker help <command>`
+### `help`
+
+`widget-maker help <command>`
 
 With no command specified, prints a list of available commands or, when a command  is specified, prints help for the specified command.
 
@@ -154,11 +162,11 @@ __Arguments__:
 
 ### CLI spec data structure
 
-The following is a comprehensive CLI spec example.
+The following is a comprehensive CLI spec example. It results in the [example output](#example-output) above.
 
 ```yaml
 mainCommand: widget-maker
-mainOptions:
+arguments:
   - name: command
     description: The command to execute.
     defaultOption: true

@@ -12,8 +12,8 @@ describe('documentUsage', () => {
       ],
       '`command <options> [action]`'
     ]
-  ])('%p -> %s', (mainOptions, expected) => {
+  ])('%p -> %s', (args, expected) => {
     expected = `## Usage\n\n${expected}\n\n`
-    expect(documentUsage({ depth : 1, mainCommand : 'command', mainOptions })).toBe(expected)
+    expect(documentUsage({ depth : 1, mainCommand : 'command', args })).toBe(expected)
   })
 })

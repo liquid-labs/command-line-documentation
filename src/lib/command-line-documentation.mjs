@@ -16,16 +16,16 @@ const commandLineDocumentation = (
 
   let content = ''
   const depth = sectionDepth
-  const { mainOptions } = cliSpec
+  const { arguments: args } = cliSpec
   const { commands } = cliSpec
 
   content = sectionMark({ depth, header : title }) //  section/page title
 
-  content += documentUsage({ depth, mainCommand, mainOptions })
+  content += documentUsage({ depth, mainCommand, args })
 
-  if (mainOptions !== undefined) {
-    const mainOptionsHeader = commands === undefined ? 'Options' : 'Main options'
-    content += documentOptions({ depth, header : mainOptionsHeader, allOptions : mainOptions })
+  if (args !== undefined) {
+    const argumentsHeader = commands === undefined ? 'Options' : 'Main options'
+    content += documentOptions({ depth, header : argumentsHeader, allOptions : args })
   }
 
   if (commands !== undefined) {
