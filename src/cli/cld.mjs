@@ -8,7 +8,7 @@ import { convertCLISpecTypes } from '../lib/convert-cli-spec-types'
 
 const myCLISpec = {
   mainCommand : 'cld',
-  mainOptions : [
+  arguments   : [
     {
       name          : 'cli-spec-path',
       description   : 'The path to the [CLI spec file](https://github.com/liquid-labs/command-line-documentation##cli-spec-data-structure).',
@@ -33,7 +33,7 @@ const myCLISpec = {
 }
 
 const cld = async({ argv = process.argv, stderr = process.stderr, stdout = process.stdout } = {}) => {
-  const options = commandLineArgs(myCLISpec.mainOptions, { argv })
+  const options = commandLineArgs(myCLISpec.arguments, { argv })
   const filePath = options['cli-spec-path']
   const { document: doDocument, 'section-depth': sectionDepth = 2, title = 'CLI reference' } = options
 

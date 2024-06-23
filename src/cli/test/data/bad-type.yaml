@@ -1,5 +1,5 @@
 mainCommand: foo
-mainOptions:
+arguments:
   - name: command
     defaultOption: true
     type: INVALID_TYPE
