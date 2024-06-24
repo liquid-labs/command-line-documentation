@@ -1,91 +1,75 @@
 import * as fs from 'node:fs/promises'
+import * as fsPath from 'node:path'
 
 import commandLineArgs from 'command-line-args'
 import yaml from 'js-yaml'
 
+import { cliSpec } from './cli-spec'
 import { commandLineDocumentation } from '../lib/command-line-documentation'
 import { convertCLISpecTypes } from '../lib/convert-cli-spec-types'
 
-const myCLISpec = {
-  mainCommand : 'cld',
-  arguments   : [
-    {
-      name          : 'cli-spec-path',
-      description   : 'The path to the [CLI spec file](https://github.com/liquid-labs/command-line-documentation##cli-spec-data-structure).',
-      defaultOption : true
-    },
-    {
-      name        : 'document',
-      description : '({underline bool} when set, will generate own documentation and exit. The `--depth` and `--title` options work with self-documentation as well.',
-      type        : Boolean
-    },
-    {
-      name        : 'section-depth',
-      description : "({underline integer}, default: 1) a depth of '1' (the default) makes the initial section a title (H1/'#') heading. A depth of two would generate an H1/'##' heading, etc.",
-      type        : Number
-    },
-    {
-      name        : 'title',
-      // eslint-disable-next-line no-template-curly-in-string
-      description : '({underline string}, default: {underline dynamic}) specifies the primary section heading (title). If not specified, will default to "`${mainCommand}` Command Reference".'
-    }
-  ]
-}
-
 const cld = async({ argv = process.argv, stderr = process.stderr, stdout = process.stdout } = {}) => {
-  const options = commandLineArgs(myCLISpec.arguments, { argv })
-  const filePath = options['cli-spec-path']
-  const { document: doDocument, 'section-depth': sectionDepth = 2, title = 'CLI reference' } = options
+  const defaultSectionDepth = cliSpec.arguments.find(({ name }) => 'section-depth').default
 
-  if (filePath !== undefined && doDocument === true) {
-    stderr.write("Option '--document' incompatible with CLI spec path.")
-    return 5
-  }
-  else if (filePath === undefined && doDocument !== true) {
-    stderr.write("Missing required CLI spec path (from argv), or invoke with '--document' option.\n")
+  const options = commandLineArgs(cliSpec.arguments, { argv })
+  const {
+    'cli-spec-path': filePath,
+    'section-depth': sectionDepth = defaultSectionDepth,
+    title // default title taken care of in `commandLineDocumentation()`
+  } = options
+
+  if (filePath === undefined) {
+    stderr.write('Missing required CLI spec path.\n')
     return 1
   }
-  else if (doDocument === true) {
-    const content = await commandLineDocumentation(myCLISpec, { sectionDepth, title })
-    stdout.write(content)
-    return 0
-  }
 
-  let fileContents
-  try {
-    fileContents = await fs.readFile(filePath, { encoding : 'utf8' })
-  }
-  catch (e) {
-    if (e.code === 'ENOENT') {
-      stderr.write(`No such file '${filePath}'.\n`)
-      return 2
+  const ext = fsPath.extname(filePath).toLowerCase()
+
+  let nativeCLISpec
+  if (ext === '.yaml' || ext === '.yml' || ext === '.json') {
+    let fileContents
+    try {
+      fileContents = await fs.readFile(filePath, { encoding : 'utf8' })
     }
-    stderr.write(e.message + '\n')
-    return 10
-  }
+    catch (e) {
+      if (e.code === 'ENOENT') {
+        stderr.write(`No such file '${'./' + filePath}'.\n`)
+        return 2
+      }
+      stderr.write(e.message + '\n')
+      return 10
+    }
 
-  let rawCLISpec
-  try {
-    rawCLISpec = yaml.load(fileContents)
-  }
-  catch (e) {
-    stderr.write(`Cannot parse '${filePath}' as YAML file; ${e.message}\n`)
-    return 3
-  }
+    let rawCLISpec
+    try {
+      rawCLISpec = yaml.load(fileContents)
+    }
+    catch (e) {
+      stderr.write(`Cannot parse '${filePath}' as YAML or JSON file; ${e.message}\n`)
+      return 3
+    }
 
-  let cliSpec
-  try {
-    cliSpec = convertCLISpecTypes(rawCLISpec)
+    try {
+      nativeCLISpec = convertCLISpecTypes(rawCLISpec)
+    }
+    catch (e) {
+      stderr.write('Invalid CLI spec; ' + e.message + '\n')
+      return 4
+    }
   }
-  catch (e) {
-    stderr.write('Invalid CLI spec; ' + e.message + '\n')
-    return 4
-  }
+  else { // if (ext === '.js' || ext === '.mjs') {
+    const absPath = fsPath.resolve(filePath)
+    nativeCLISpec = (await import(absPath)).cliSpec
+  } /*
+  else {
+    process.stderr.write(`Unknown file type '${ext}'. File must be either yaml, json, or a Javascript module file.`)
+    return 11
+  } */
 
-  const doc = commandLineDocumentation(cliSpec)
+  const doc = commandLineDocumentation(nativeCLISpec, { sectionDepth, title })
 
   stdout.write(doc)
   return 0
 }
 
-export { cld }
+export { cld, cliSpec }
