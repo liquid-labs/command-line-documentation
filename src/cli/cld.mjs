@@ -11,7 +11,6 @@ import { convertCLISpecTypes } from '../lib/convert-cli-spec-types'
 const cld = async({ argv = process.argv, stderr = process.stderr, stdout = process.stdout } = {}) => {
   const options = commandLineArgs(cliSpec.arguments, { argv })
   const filePath = options['cli-spec-path']
-  console.log('filePath:', filePath) // DEBUG
   const { document: doDocument, 'section-depth': sectionDepth = 2, title = 'CLI reference' } = options
 
   if (filePath === undefined) {
