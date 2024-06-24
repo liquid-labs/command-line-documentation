@@ -9,9 +9,14 @@ import { commandLineDocumentation } from '../lib/command-line-documentation'
 import { convertCLISpecTypes } from '../lib/convert-cli-spec-types'
 
 const cld = async({ argv = process.argv, stderr = process.stderr, stdout = process.stdout } = {}) => {
+  const defaultSectionDepth = cliSpec.arguments.find(({ name }) => 'section-depth').default
+
   const options = commandLineArgs(cliSpec.arguments, { argv })
-  const filePath = options['cli-spec-path']
-  const { 'section-depth': sectionDepth = 2, title = 'CLI reference' } = options
+  const {
+    'cli-spec-path': filePath,
+    'section-depth': sectionDepth = defaultSectionDepth,
+    title // default title taken care of in `commandLineDocumentation()`
+  } = options
 
   if (filePath === undefined) {
     stderr.write('Missing required CLI spec path.\n')
