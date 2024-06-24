@@ -11,10 +11,10 @@ import { convertCLISpecTypes } from '../lib/convert-cli-spec-types'
 const cld = async({ argv = process.argv, stderr = process.stderr, stdout = process.stdout } = {}) => {
   const options = commandLineArgs(cliSpec.arguments, { argv })
   const filePath = options['cli-spec-path']
-  const { document: doDocument, 'section-depth': sectionDepth = 2, title = 'CLI reference' } = options
+  const { 'section-depth': sectionDepth = 2, title = 'CLI reference' } = options
 
   if (filePath === undefined) {
-    stderr.write("Missing required CLI spec path.\n")
+    stderr.write('Missing required CLI spec path.\n')
     return 1
   }
 
@@ -61,7 +61,7 @@ const cld = async({ argv = process.argv, stderr = process.stderr, stdout = proce
     return 11
   } */
 
-  const doc = commandLineDocumentation(nativeCLISpec)
+  const doc = commandLineDocumentation(nativeCLISpec, { sectionDepth, title })
 
   stdout.write(doc)
   return 0
