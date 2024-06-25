@@ -18,8 +18,6 @@ const commandTOC = ({ commands, context, depth, header }) => {
     content += '\n'
   }
 
-  content += '\n'
-
   return content
 }
 

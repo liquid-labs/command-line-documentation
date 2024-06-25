@@ -1,5 +1,6 @@
 import { chalkTemplateToMd } from './chalk-template-to-md'
 import { displayArg } from './display-arg'
+import { displayOptionDetails } from './display-option-details'
 import { sectionMark, separateOptions } from './helpers'
 
 const documentOptions = ({ depth, header, allOptions }) => {
@@ -8,25 +9,24 @@ const documentOptions = ({ depth, header, allOptions }) => {
     return ''
   }
 
-  let content = sectionMark({ depth : depth + 1, header })
+  let content = '\n' + sectionMark({ depth : depth + 1, header })
 
   content += '|Option|Description|\n|------|------|\n'
 
   if (defaultOption !== undefined) {
     const { description, required } = defaultOption
     content += '|`' + displayArg(defaultOption)
-      + `\`|(_main argument_,_${required === true ? 'required' : 'optional'}_) ` + description + '|\n'
+      + `\`|(_main argument_, _${required === true ? 'req' : 'opt'}_) ` + description + '|\n'
   }
 
-  for (const { alias, name, description } of options) {
+  for (const option of options) {
+    const { alias, name, description } = option
     content += '|`--' + name + '`'
     if (alias !== undefined) {
       content += ', `-' + alias + '`'
     }
-    content += '|' + chalkTemplateToMd(description) + '|\n'
+    content += '|' + displayOptionDetails(option) + chalkTemplateToMd(description) + '|\n'
   }
-
-  content += '\n'
 
   return content
 }
