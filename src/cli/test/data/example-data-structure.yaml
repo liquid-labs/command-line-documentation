@@ -3,6 +3,7 @@ arguments:
   - name: command
     description: The command to execute.
     defaultOption: true
+    required: true
     type: String
   - name: verbose
     description: Makes the output a bit more chatty.
