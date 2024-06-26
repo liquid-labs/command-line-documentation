@@ -15,13 +15,13 @@ describe('documentOptions', () => {
 `
     ],
     [
-      [{ name : 'bar', description : 'Optional option' }],
+      [{ multiple : true, name : 'bar', description : 'Optional, multiple option' }],
       `
 ## Test
 
 |Option|Description|
 |------|------|
-|\`--bar\`|(_string_, _opt_) Optional option|
+|\`--bar\`|(_string_, _multiple_, _opt_) Optional, multiple option|
 `
     ],
     [
