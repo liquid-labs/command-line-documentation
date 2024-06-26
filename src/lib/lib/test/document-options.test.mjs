@@ -6,32 +6,32 @@ describe('documentOptions', () => {
     [[], ''],
     [
       [{ name : 'foo', defaultOption : true, description : 'The default option' }],
-      `## Test
+      `
+## Test
 
 |Option|Description|
 |------|------|
-|\`<foo>\`|(_main argument_,_optional_) The default option|
-
+|\`<foo>\`|(_main argument_, _opt_) The default option|
 `
     ],
     [
       [{ name : 'bar', description : 'Optional option' }],
-      `## Test
+      `
+## Test
 
 |Option|Description|
 |------|------|
-|\`--bar\`|Optional option|
-
+|\`--bar\`|(_string_, _opt_) Optional option|
 `
     ],
     [
       [{ name : 'baz', alias : 'b', description : 'Aliased option' }],
-      `## Test
+      `
+## Test
 
 |Option|Description|
 |------|------|
-|\`--baz\`, \`-b\`|Aliased option|
-
+|\`--baz\`, \`-b\`|(_string_, _opt_) Aliased option|
 `
     ]
   ])('%s -> %s', (allOptions, expected) =>

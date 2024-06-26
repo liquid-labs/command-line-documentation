@@ -10,7 +10,6 @@ describe('commandTOC', () => {
 
 - [\`first\`](#foo-first): the first command
 - [\`last\`](#foo-last): The last command.
-
 `
   let content
   beforeAll(() => {
@@ -30,7 +29,6 @@ describe('commandTOC', () => {
     expect(content).toBe(`### Test
 
 - [\`command\`](#foo-command): First sentence.
-
 `)
   })
 })

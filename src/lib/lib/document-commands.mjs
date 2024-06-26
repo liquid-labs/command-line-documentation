@@ -32,10 +32,10 @@ const documentCommands = ({ commands, context, depth, header }) => {
     if (subCommands !== undefined && subCommands.length > 0) {
       const subCommandContext = context + ' ' + name
       content += documentCommands({
-        commands  : subCommands,
-        context   : subCommandContext,
-        depth     : depth + 2,
-        header    : 'Subcommands'
+        commands : subCommands,
+        context  : subCommandContext,
+        depth    : depth + 2,
+        header   : 'Subcommands'
       })
     }
   })

@@ -1,5 +1,5 @@
 const displayOptionDetails = ({ default: def, required, type, typeDesc }) => {
-  typeDesc = typeDesc 
+  typeDesc = typeDesc
     || (type === Boolean && 'bool')
     || (type === Number && 'number')
     || ((type === String || type === undefined) && 'string')
