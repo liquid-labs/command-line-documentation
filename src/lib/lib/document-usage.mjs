@@ -6,7 +6,7 @@ const documentUsage = ({ depth, mainCommand, args }) => {
 
   usage += '`' + mainCommand
 
-  usage += documentCommandArgs({ allOptions : args }) + '`\n\n'
+  usage += documentCommandArgs({ allOptions : args }) + '`\n'
 
   return usage
 }

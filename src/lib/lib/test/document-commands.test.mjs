@@ -23,7 +23,8 @@ describe('documentCommands', () => {
   const depth = 1
   const header = 'Test'
 
-  const expected = `## Test
+  const expected = `
+## Test
 
 - [\`command-a\`](#main-command-command-a): The first command.
 - [\`command-b\`](#main-command-command-b): Command with sub-commands
@@ -39,7 +40,7 @@ More details.
 
 |Option|Description|
 |------|------|
-|\`--option-a\`|an option|
+|\`--option-a\`|(_string_, _opt_) an option|
 
 <span id="main-command-command-b"></span>
 ### \`command-b\`
@@ -52,8 +53,7 @@ Command with sub-commands
 
 |Option|Description|
 |------|------|
-|\`<sub-command>\`|(_main argument_,_optional_) the sub-command.|
-
+|\`<sub-command>\`|(_main argument_, _opt_) the sub-command.|
 
 #### Subcommands
 
@@ -73,8 +73,6 @@ Subcommand A
 \`main-command command-b sub-b\`
 
 Subcommand B
-
-
 `
 
   let content

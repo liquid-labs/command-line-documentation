@@ -54,10 +54,16 @@ if (options.document === true) {
 
 ### `cld` usage
 
-To generate documentation from a YAML or JSON spec file.
+To generate documentation from a YAML or JSON spec file:
 
 ```bash
 npx cld path/to/cli-spec.yaml
+```
+
+To append CLI documentation to `README.md`:
+
+```bash
+npx cld src/cli-spec.mjs --section-depth 2 --titles 'Command line reference'
 ```
 
 ## Example output
@@ -70,14 +76,14 @@ Processing the [example CLI spec](#cli-spec-data-structure) would generate:
 
 ## Usage
 
-`widget-maker <options> <command>`
+`widget-maker <options> [command]`
 
 ## Main options
 
 |Option|Description|
 |------|------|
-|`<command>`|(_main argument_,_optional_) The command to execute.|
-|`--verbose`, `-v`|Makes the output a bit more chatty.|
+|`[command]`|(_main argument_, _req_) The command to execute.|
+|`--verbose`, `-v`|(_bool_, _opt_) Makes the output a bit more chatty.|
 
 ## Commands
 
@@ -96,8 +102,7 @@ Creates a new widget.
 
 |Option|Description|
 |------|------|
-|`[type]`|(_main argument_,_required_) The type of the widget to create.|
-
+|`[type]`|(_main argument_, _req_) The type of the widget to create.|
 
 #### Subcommands
 
@@ -115,7 +120,7 @@ Creates a chart widget
 
 |Option|Description|
 |------|------|
-|`--chart-type`|The type of chart to create. May be 'bar' or 'line'.|
+|`--chart-type`|(_string_, _req_) The type of chart to create. May be 'bar' or 'line'.|
 
 <span id="widget-maker-create-summary"></span>
 ##### `summary`
@@ -136,7 +141,7 @@ With no command specified, prints a list of available commands or, when a comman
 
 |Option|Description|
 |------|------|
-|`<command>`|(_main argument_,_optional_) The command to print help for.|
+|`<command>`|(_main argument_, _opt_) The command to print help for.|
 ```
 
 ## User reference
@@ -170,6 +175,7 @@ arguments:
   - name: command
     description: The command to execute.
     defaultOption: true
+    required: true
     type: String
   - name: verbose
     description: Makes the output a bit more chatty.
@@ -191,7 +197,6 @@ commands:
           - name: chart-type
             description: The type of chart to create. May be 'bar' or 'line'.
             required: true
-        # each sub-command may have further sub-commands indeinitely
       - name: summary
         description: Creates a summary widget.
   - name: help
@@ -208,14 +213,12 @@ commands:
 
 #### Usage
 
-`cld <options> <cli-spec-path>`
+`cld <options> [cli-spec-path]`
 
 #### Options
 
 |Option|Description|
 |------|------|
-|`<cli-spec-path>`|(_main argument_,_optional_) The path to the [CLI spec file](https://github.com/liquid-labs/command-line-documentation##cli-spec-data-structure).|
-|`--document`|(_bool_ when set, will generate own documentation and exit. The `--depth` and `--title` options work with self-documentation as well.|
-|`--section-depth`|(_integer_, default: 1) a depth of '1' (the default) makes the initial section a title (H1/'#') heading. A depth of two would generate an H1/'##' heading, etc.|
-|`--title`|(_string_, default: _dynamic) specifies the primary section heading (title). If not specified, will default to "`${mainCommand_` Command Reference".|
-
+|`[cli-spec-path]`|(_main argument_, _req_) The path to the YAML/JSON CLI spec file or Javascript file exporting `cliSpec`.|
+|`--section-depth`|(_integer_, _opt_, default: 1) A depth of 1 (the default) makes the initial section a title (H1/'#') heading. A depth of 2 would generate an H2/'##' heading, etc.|
+|`--title`|(_string_, _opt_, default: see description) Specifies the primary section heading (title). By default, this is the `mainCommand` + " Command Reference".|
